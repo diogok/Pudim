@@ -1,0 +1,293 @@
+body {
+  font:1em Helvetica, sans-serif;
+  padding:4px;
+}
+
+a, a:link , a:active , a:visited {
+    text-decoration: none;
+    color: #00B64F;
+    padding: 0 0.5em 0  0.5em ;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+h1 {
+	padding: 0.5em 0 0.5em 1em;
+    margin: 0 ;
+
+	color: #068FA1;
+	background-color: #034769;
+	text-shadow: rgba(0, 0, 0, 0.5) 2px 2px 1px;
+
+	font-size: 1.5em;
+	line-height: 1em;
+	font-weight: normal;
+	
+	border-radius: 15px 15px 0 0;
+	-moz-border-radius: 15px 15px 0 0;
+	-webkit-border-top-right-radius: 15px;
+	-webkit-border-top-left-radius: 15px;
+}
+
+h2 {
+	padding: 0.5em 0 0.5em 1.5em;
+    margin: 0 ;
+	font-size: 1.0em;
+    font-style: none;
+	background-color: #63ADD0;
+	color: #fff;
+
+	border-radius: 0 0 15px 15px;
+	-moz-border-radius: 0 0 15px 15px ;
+	-webkit-border-bottom-right-radius: 15px;
+	-webkit-border-bottom-left-radius: 15px;
+}
+
+button {
+    display: table;
+	padding: 0.5em 1.5em 0.5em 1.5em;
+	font-size: 0.8em;
+	background-color: #00B64F;
+	color: #fff;
+    border: none;
+    cursor: pointer;
+
+	border-radius: 15px 15px 15px 15px;
+	-moz-border-radius: 15px 15px 15px 15px ;
+	-webkit-border-radius: 15px;
+}
+
+#signup {
+    margin: -2.3em 0 0.5em 0;
+    background-color: #00B64F;
+    font-size: 1em;
+    float: right;
+
+	border-radius: 0 0 15px 0;
+	-moz-border-radius: 0 0 15px 0 ;
+	-webkit-border-top-right-radius: 0;
+	-webkit-border-top-left-radius: 0;
+}
+
+#content {
+    margin: 0 ;
+    display: block;
+}
+
+.tabs {
+	height: auto;
+	position: relative;
+	z-index: 1;
+	display: block;
+}
+.tabs section {
+	float: left;
+	z-index: 1;
+}
+.tabs section h3 {
+	margin: 1.5em 0.5em 0 0;
+	padding: 0.5em 2em 0.5em 1em;
+    width: 10em;
+
+	cursor: pointer;
+
+	font: bold 0.8em Helvetica;
+    color: #fff;
+	background: #63ADD0;
+
+	border-radius: 15px 15px 0 0;
+	-moz-border-radius: 15px 15px 0 0;
+	-webkit-border-top-right-radius: 15px;
+	-webkit-border-top-left-radius: 15px;
+}
+
+.tabs section.current h3 { 
+    background: #034760; 
+    cursor: default; 
+}
+
+.tabs section>div {
+	left: 0;
+	z-index: 2;
+    position: absolute;
+	width: 60em;
+	display: none;
+	padding: 10px 10px 10px 10px;
+
+    border: 0.2em #034769 solid;
+	border-radius: 0 15px 15px 15px;
+	-moz-border-radius: 0 15px 15px 15px;
+	-webkit-border-top-right-radius: 15px;
+	-webkit-border-bottom-right-radius: 15px;
+	-webkit-border-bottom-left-radius: 15px;
+}
+
+.tabs section.current>div {
+    display: table;
+    color: #034769;
+}
+
+
+dl.bookmarks {
+}
+dl.bookmarks dt {
+    font-size: 1.5em ;
+    margin: 0 0 0 0 ;
+    padding: 0 0 0 0 ;
+    display: block;
+    clear: left;
+}
+dl.bookmarks dd {
+    margin: -1em 0 1em 0 ;
+    padding:  0.8em 0 0 0 ;
+    border-left: 0.5em #034769 solid;
+    display: table;
+}
+dl.bookmarks dd p {
+    margin: 0.5em 0 0.5em 0.3em ;
+    padding: 0 0 0 0 ;
+    color: #034769;
+}
+dl.bookmarks dd p.by {
+    margin: 0.5em 0 0.0em 0.5em ;
+    padding: 0 0 0 0 ;
+    color: #034769;
+    font-size: 0.8em;
+}
+dl.bookmarks dd ul {
+    margin: 0 0 0 0.2em ;
+    padding: 0 0 0 0 ;
+    list-style: none;
+}
+dl.bookmarks dd ul li {
+    margin: 0 0 0 0;
+    padding: 0 0 0 0 ;
+    list-style: none;
+    display: table;
+    float: left;
+    font-size: 0.8em;
+}
+dl.bookmarks dd ul li a {
+    color: #034769;
+    padding: 0 0.5em 0 0.2em ;
+}
+dl.bookmarks dd ul li a:hover {
+    color: #034679;
+	background-color: #63ADD0;
+    padding: 0 0.5em 0 0.2em ;
+
+	border-radius: 0 10px 0 10px;
+	-moz-border-radius: 0 10px 10px 0;
+	-webkit-border-top-right-radius: 10px;
+	-webkit-border-bottom-right-radius: 10px;
+}
+
+#loginDialog {  
+   background-color: #fff;
+   color: #034769;
+}  
+
+#loginDialog p {
+    margin: 0;
+    padding: 0;
+}
+
+#loadingDialog {
+   background-color: #fff;
+   color: #034769;
+}
+
+#mask {  
+   position:absolute;  
+   z-index:9000;  
+   background-color:#000;  
+   display:none;  
+   border-radius: 15px 15px 15px 15px;
+   -moz-border-radius: 15px 15px 15px 15px ;
+   -webkit-border-radius: 15px;
+}  
+ 
+#boxes .window {  
+   position:absolute;  
+   background-color: #fff;
+   color: #034769;
+   width:440px;  
+   height:200px;  
+   display:none;  
+   z-index:9999;  
+   padding:20px;  
+   padding-top: 10px;
+   padding-right: 10px;
+   border-radius: 15px 15px 15px 15px;
+   -moz-border-radius: 15px 15px 15px 15px ;
+   -webkit-border-radius: 15px;
+}  
+
+
+.close {
+   background-color: #ccc ; 
+   width: auto;
+   display: table;
+   font-size: 0.8em ;
+   cursor: pointer;
+   padding: 0.5em 0.8em 0.5em 0.8em; 
+   border-radius: 15px 15px 15px 15px;
+   -moz-border-radius: 15px 15px 15px 15px ;
+   -webkit-border-radius: 15px;
+}
+
+.window .close {
+    float: right;
+}
+
+.window form {
+    margin-top: 2.0em;
+}
+
+#logoutBt {
+    display: none;
+    background-color: #ccc ; 
+    float: right;
+}
+
+#boxes .window#bookmarkDialog {
+    height:400px;  
+}
+
+#boxes .window label {
+}
+
+#boxes .window input, #boxes .window textarea {
+    margin-left: 0.5em;
+    width: 20em;
+}
+
+#boxes .window button {
+    float: left;
+    margin-left: 0.5em;
+    margin-top: 1.3em;
+    font-size: 1em;
+}
+
+a.editBt {
+    font-size: 0.5em;
+	padding: 0.0em 0.5em 0.0em 0.5em;
+    display: inline;
+    background-color: #ccc ;
+	color: #fff;
+    border: none;
+    cursor: pointer;
+
+	border-radius: 15px 15px 15px 15px;
+	-moz-border-radius: 15px 15px 15px 15px ;
+	-webkit-border-radius: 15px;
+}
+
+#lang {
+    display: block;
+    clear: both;
+    float: right;
+    margin-top: -2em;
+}

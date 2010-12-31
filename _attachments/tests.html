@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Pud.im is Delicious!</title>
+    <link rel="stylesheet" href="style/qunit.css" type="text/css">
+    <script src="js/qunit.js"></script>
+    <script src="vendor/couchapp/loader.js"></script>
+    <script type="text/javascript">
+        function sleep(milliseconds) {
+            var start = new Date().getTime();
+            for (var i = 0; i < 1e7; i++) {
+                if ((new Date().getTime() - start) > milliseconds){
+              break;
+              }
+           }
+        }
+    </script>
+    <script type="text/javascript" charset="utf-8">
+        var db = $.couch.db("pudim");
+
+        module("Basic");
+        asyncTest("Test access", function() {
+            db.info({ success: function(a) { ok(true,"Db is up!"); start(); },
+                      error: function() { ok(false,"DB is not up!"); start(); }
+                    });
+            });
+        asyncTest("Authentication fail", function() {
+            $.couch.login({name: "test", password: "NotCorrect",
+                           success: function() { ok(false, "Should not authenticate wrong password"); start(); } , 
+                           error:   function() { ok(true); start();}
+                           });
+            });
+        asyncTest("Authentication pass", function() {
+            $.couch.login({name: "test", password: "test",
+                           success: function() { ok(true ); start(); } , 
+                           error:   function() { ok(false, "Should authenticate right password"); start();}
+                           });
+            });
+        asyncTest("Logout", function() {
+                $.couch.logout({ success: function() { ok(true); start();},
+                                 error: function()   { ok(false,"Should logout"); start();}});
+            });
+
+        module("Insertion");
+        asyncTest("Unauthenticated", function() {
+               var doc = { user: "test",tags: ["google","seo"], 
+                          url: "http://google.com/", title: "Hello", description: "This is google" };
+              $.couch.logout({
+                  error: function() { ok(false,"unable the logout");start();},
+                  success: function() {
+                    db.saveDoc(doc,{ success:  function() { 
+                                   ok(false, "Should not insert unauthenticated user"); 
+                                   db.removeDoc(doc, {success: function() { start();}, error: function() {start();} });} ,
+                        error: function(code) { equals(401,code,"Should not authorize."); start();}
+                    });
+                  }});
+            });
+
+
+        asyncTest("Invalid User", function() {
+              var doc = { user: "not-test",tags: ["google","seo"], 
+                          url: "http://google.com/", title: "Hello", description: "This is google" };
+              $.couch.login({name: "test", password: "test",
+                  error: function() { ok(false,"unable the login");start();},
+                  success: function() {
+                    db.saveDoc(doc,{ success:  function() { 
+                                   ok(false, "Should not insert wrong user"); 
+                                   db.removeDoc(doc, {success: function() { start();}, error: function() {start();} });} ,
+                        error: function(code) { equals(401,code,"Should not authorize."); start();}
+                    });
+                  }});
+            });
+        asyncTest("Invalid document", function() {
+              var doc = { user: "test",tags: ["google","seo"], 
+                          url: "http://google.com/", description: "This is google" };
+              $.couch.login({name: "test", password: "test",
+                  error: function() { ok(false,"unable the login");start();},
+                  success: function() {
+                    db.saveDoc(doc,{ success:  function() { 
+                                   ok(false, "Should not insert invalid doc"); 
+                                   db.removeDoc(doc, {success: function() { start();}, error: function() {start();} });} ,
+                        error: function(code) { equals(403,code,"Should forbid."); start();}
+                    });
+                  }});
+            });
+        asyncTest("No extra parameters", function() {
+              var doc = { user: "test",tags: ["google","seo"], nomorefields: "hi",
+                          url: "http://google.com/", description: "This is google", title: "Google" };
+              $.couch.login({name: "test", password: "test",
+                  error: function() { ok(false,"unable the login");start();},
+                  success: function() {
+                    db.saveDoc(doc,{ success:  function() { 
+                                   ok(false, "Should not insert invalid doc"); 
+                                   db.removeDoc(doc, {success: function() { start();}, error: function() {start();} });} ,
+                        error: function(code) { equals(403,code,"Should forbid."); start();}
+                    });
+                  }});
+            });
+        asyncTest("Check parameters type", function() {
+              var doc = { user: "test",tags: ["google","seo"], url: ["http://google.com/"],
+                description: "This is google", title: ["Google"] };
+              $.couch.login({name: "test", password: "test",
+                  error: function() { ok(false,"unable the login");start();},
+                  success: function() {
+                    db.saveDoc(doc,{ success:  function() { 
+                                   ok(false, "Should not insert invalid doc"); 
+                                   db.removeDoc(doc, {success: function() { start();}, error: function() {start();} });} ,
+                        error: function(code) { equals(403,code,"Should forbid."); start();}
+                    });
+                  }});
+            });
+        asyncTest("Regular insert", function() {
+              var doc = { user: "test",tags: ["google","seo"], url: "http://google.com/",
+                           description: "This is google", title: "Google" };
+              $.couch.login({name: "test", password: "test",
+                  error: function() { ok(false,"unable the login");start();},
+                  success: function() {
+                  db.saveDoc(doc,{
+                        success:  function() { ok(true, "Should insert doc");start(); db.removeDoc(doc); } ,
+                        error: function(a,b,c) { ok(false,"Should allow"); start();}
+                    });
+                  }});
+            });
+
+        module("Exclusion");
+        asyncTest("Regular delete", function() {
+              var doc = { user: "test",tags: ["google","seo"], url: "http://google.com/",
+                           description: "This is google", title: "Google" };
+              $.couch.login({name: "test", password: "test",
+                  error: function() { ok(false,"unable the login");start();},
+                  success: function() {
+                  db.saveDoc(doc,{
+                    success:  function() {  db.removeDoc(doc, {
+                        success: function() {ok(true, "Should remove doc");start(); },
+                        error: function() {ok(false,"Should remove doc"); start();}
+                    }); } ,
+                        error: function(a,b,c) { ok(false,"Should allow insert"); start();}
+                    });
+                  }});
+            });
+
+        module("Updating");
+        asyncTest("Regular update", function() {
+              var doc = { user: "test",tags: ["google","seo"], url: "http://google.com/",
+                           description: "This is google", title: "Google" };
+              $.couch.login({name: "test", password: "test",
+                  error: function() { ok(false,"unable the login");start();},
+                  success: function() {
+                  db.saveDoc(doc,{
+                    success:  function() { doc.title = "Googla"; db.saveDoc(doc, {
+                        success: function() {ok(true, "Should update doc"); start(); db.removeDoc(doc); },
+                        error: function() {ok(false,"Should update doc"); start(); db.removeDoc(doc);}
+                    }); } ,
+                        error: function(a,b,c) { ok(false,"Should allow insert"); start();}
+                    });
+                  }});
+            });
+
+
+        // Updates, inserts and deletes are basically the same operation in validation
+
+        module("Queries");
+        asyncTest("Load database", function() {
+            var doc1 = { _id: "test1",user: "test",tags: ["google","seo"], url: "http://google.com/",
+                         description: "This is google", title: "Google" , timestamp: 1293754822 };
+            var doc2 = { _id: "test2",user: "test",tags: ["yahoo","seo"], url: "http://yahoo.com/",
+                         description: "This is yahoo", title: "Yahoo" , timestamp: 1293754822 };
+            var doc3 = { _id: "test3", user: "test",tags: ["google","images"], url: "http://google.com/images",
+                          title: "Google Images" , timestamp: 1293754822 };
+            $.couch.login({name: "test", password:"test", 
+                    success: function() { db.bulkSave({docs:[doc1,doc2,doc3]}, {
+                        success: function(a) { ok(true,"Loaded"); start(); }, error: function(a,b,c) {}})}});
+            });
+        asyncTest("Get user bookmarks", function() {
+                db.view("pudim/by_user",{success: function(result) {
+                    equals(3,result.total_rows,"Must have 3 docs");
+                    equals("Google",result.rows[0].value.title,"First result is Google");
+                    equals("Yahoo",result.rows[1].value.title,"Second result is Yahoo");
+                    start();
+                    }, error: function(a,b,c) { ok(false,c); start();}});
+            });
+        asyncTest("Get bookmarks by tag", function() {
+                db.view("pudim/by_tags",{ key: "google",success: function(result) {
+                    equals(2,result.rows.length,"Must have 2 docs");
+                    equals("Google",result.rows[0].value.title,"First result is Google");
+                    equals("Google Images",result.rows[1].value.title,"Second result is Google images");
+                    start();
+                    }, error: function(a,b,c) { ok(false,c); start();}});
+            });
+        asyncTest("Get user bookmarks by tag", function() {
+                db.view("pudim/by_user_tags",{ key: ["test","google" ],success: function(result) {
+                    equals(2,result.rows.length,"Must have 2 docs");
+                    equals("Google",result.rows[0].value.title,"First result is Google");
+                    equals("Google Images",result.rows[1].value.title,"Second result is Google images");
+                    start();
+                    }, error: function(a,b,c) { ok(false,c); start();}});
+            });
+        asyncTest("Unload database", function() {
+                sleep(5000);
+                var doc1 , doc2, doc3;
+                db.openDoc("test1",{success: function(a) {
+                    doc1 = a; }}, {async: false});
+                db.openDoc("test2",{success: function(a) {
+                    doc2 = a; }}, {async: false});
+                db.openDoc("test3",{success: function(a) {
+                    doc3 = a; }}, {async: false});
+                db.bulkRemove({docs:[doc1,doc2,doc3]},{success: function() { $.couch.logout( {success: 
+                      function() { ok(true, "Unloaded"); start(); }});}});
+            });
+    </script>
+  </head>
+  <body>
+      <h1 id="qunit-header">Pud.im is Delicious!</h1>
+      <h2 id="qunit-banner"></h2>
+      <div id="qunit-testrunner-toolbar"></div>
+      <h2 id="qunit-userAgent"></h2>
+      <ol id="qunit-tests"></ol>
+      <div id="qunit-fixture"></div>
+  </body>
+</html>
