@@ -1,0 +1,16 @@
+<dl class='bookmarks'>{{#rows}}
+    <dt>
+        <a href='{{url}}' rel='nofollow' target='_blank'>{{title}}</a>
+        <a href='#/add/id/{{id}}' class='editBt'>add/edit</a>
+    </dt>
+    <dd>
+        <p>{{description}}</p>
+        {{#user}}<p class='by'>by <a href='#/user/{{user}}'>{{user}}</a></p>{{/user}}
+        {{#tags}}
+            <ul class='tags'>
+                {{#user_filter}}<li><a href='#/user/{{user_filter}}/{{tag}}'>{{tag}}</a></li>{{/user_filter}}
+                {{#no_filter}}<li><a href='#/tag/{{tag}}'>{{tag}}</a></li>{{/no_filter}}
+            </ul>
+        {{/tags}}
+    </dd>
+{{/rows}}</dl>

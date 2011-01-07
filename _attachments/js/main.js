@@ -1,9 +1,4 @@
 $(function(){
-  $("body *").each(function(i,el) {
-          var tag = $(el);
-          var tmp = tag.children().remove();
-          tag.html($.translate(tag.text())).append(tmp);
-      });
 
   // If come to add a bookmark
   var urlToAdd  = null;
@@ -17,23 +12,18 @@ $(function(){
   var currentUser = null ;
   var currentBookmark = null;
 
-  // Generic bookmark list template
-  var template  =  "<dl class='bookmarks'>{{#rows}}"
-  template     += "<dt><a href='{{url}}' rel='nofollow' target='_blank'>{{title}}</a>";
-  template     += "<a href='#/add/id/{{id}}' class='editBt'>"+ $.translate("add/edit") +"</a></dt>";
-  template     += "<dd><p>{{description}}</p>";
-  template     += "{{#user}}<p class='by'>"+ $.translate("by")+" <a href='#/user/{{user}}'>{{user}}</a></p>{{/user}}";
-  template     += "<ul class='tags'>{{#tags}}";
-  template     += "{{#user_filter}}<li><a href='#/user/{{user_filter}}/{{tag}}'>{{tag}}</a></li>{{/user_filter}}";
-  template     += "{{#no_filter}}<li><a href='#/tag/{{tag}}'>{{tag}}</a></li>{{/no_filter}}";
-  template     += "{{/tags}}</ul></dd>";
-  template     += "{{/rows}}</dl>";
+  $('body').append($.templatize('header'));
+  $('body').append($.templatize('tabs'));
+  $('body').append($.templatize('side'));
+  $('body').append("<div id='boxes'></div>");
+  $('body').append("<div id='mask'></div>");
+  $('#boxes').append($.templatize('login'));
+  $('#boxes').append($.templatize('bookmark'));
 
   // Tab navigation
   $('div.tabs section > h3').click(function(){
       $.pathbinder.go("/" + $(this).parent().attr("id"));
   });
-
 
   // #Recent path binding
   $('div.tabs section#recent').bind('recent', function() {
@@ -48,7 +38,7 @@ $(function(){
               for(var i in docs) {
                   docs[i].tags = docs[i].tags.map(function(tag){return {tag: tag};});
               }
-              $('#recent div div').html($.mustache(template,{rows: docs , no_filter: true}));
+              $('#recent div div').html($.templatize('bookmarkRow',{rows: docs , no_filter: true}));
           }}); $(this).closest('section').addClass('current');
       });
   $('div.tabs section#recent').pathbinder("recent","/recent");
@@ -67,7 +57,7 @@ $(function(){
                   docs[i].tags = docs[i].tags.map(function(tag){return {tag: tag};});
                   docs[i].title = docs[i].url.replace("http://","").replace("https://","");
               }
-              $('#top div div').html($.mustache(template,{rows: docs, no_filter: true }));
+              $('#top div div').html($.templatize('bookmarkRow',{rows: docs, no_filter: true }));
           }});
 
   });
@@ -90,7 +80,7 @@ $(function(){
                   for(var i in docs) {
                       docs[i].tags = docs[i].tags.map(function(tag){return {tag: tag};});
                   }
-                  $('#tag div div').html($.mustache(template,{rows: docs , no_filter: true}));
+                  $('#tag div div').html($.templatize('bookmarkRow',{rows: docs , no_filter: true}));
               }});
         }
   });
@@ -123,7 +113,7 @@ $(function(){
                   for(var i in docs) {
                       docs[i].tags = docs[i].tags.map(function(tag){return {tag: tag};});
                   }
-                  $('#user div div').html($.mustache(template,{rows: docs, user_filter: user }));
+                  $('#user div div').html($.templatize('bookmarkRow',{rows: docs, user_filter: user }));
               }});
         }
   });
@@ -155,7 +145,7 @@ $(function(){
               for(var i in docs) {
                   docs[i].tags = docs[i].tags.map(function(tag){return {tag: tag};});
               }
-              $('#your div div').html($.mustache(template,{rows: docs, user_filter: currentUser }));
+              $('#your div div').html($.templatize('bookmarkRow',{rows: docs, user_filter: currentUser }));
             }});
         }
   });

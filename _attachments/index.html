@@ -5,73 +5,10 @@
     <link rel="stylesheet" href="style/main.css" type="text/css">
   </head>
   <body>
-    <header>
-        <h1>Pudim is delicious!</h1>
-        <h2>Pudim is a dead simple, open and free bookmarks!</h2>
-        <button id="signup">Get your Pudim for free!</button>
-    </header>
-    <div id="content" class="tabs">
-        <section id="recent" class="current">
-            <h3>New Pudims</h3>
-            <div><h4>Bookmarks recently added</h4><div></div></div>
-        </section>
-        <section id="top">
-            <h3>Top Top</h3>
-            <div><h4>Top saved bookmarks</h4><div></div></div>
-        </section>
-        <section id="tag">
-            <h3>Tagged: <span id='tagged'>-</span></h3>
-            <div><h4>Tag search</h4><div></div></div>
-        </section>
-        <section id="user">
-            <h3>User: <span id='userid'>-</span></h3>
-            <div><h4>User search</h4><div></div></div>
-        </section>
-        <section id="your">
-            <h3>Your Stuff</h3>
-            <div><h4>Your Bookmarks</h4><button id="addBt">Add bookmark</button><button id="logoutBt">Logout</button><div></div></div>
-        </section>
-    </div>
-    <aside>
-        <div id="lang">
-            <a href="" id="addBook">Bookmark this</a><br />
-        </div>
-        <div id="tagcloud">
-        </div>
-    </aside>
-    <div id="boxes" >
-        <div id="loginDialog" class="window">
-            <div class='close'>Cancel</div>
-            <form>
-                <fieldset>
-                    <legend>Login/SignUp</legend>
-                    <p><label>User</label><input type="text" id="username" /></p>
-                    <p><label>Password</label><input type="password" id="password" /></p>
-                    <p><button id="loginBt">Login</button><button id="signupBt">Sign up</button></p>
-                </fieldset>
-            </form>
-        </div>
-        <div id="bookmarkDialog" class='window'>
-            <div class='close'>Cancel</div>
-            <form>
-                <fieldset>
-                    <legend>Bookmark</legend>
-                    <p><label>URL</label><input type="text" id="url" /></p>
-                    <p><label>Title</label><input type="text" id="title" /></p>
-                    <p><label>Description</label><textarea id="description" ></textarea></p>
-                    <p><label>Tags</label><input type="text" id="tags" /></p>
-                    <p><button id="saveBt">Save</button><button id="deleteBt">Delete</button></p>
-                </fieldset>
-            </form>
-        </div>
-        <div id="loadingDialog" class='window'>
-            Loading...
-        </div>
-    </div>
-    <div id="mask"></div>
   </body>
     <script src="vendor/couchapp/loader.js"></script>
     <script src="js/localize.js" type="text/javascript"></script>
+    <script src="js/templatize.js" type="text/javascript"></script>
     <script src="js/mask.js" type="text/javascript"></script>
     <script src="js/main.js" type="text/javascript"></script>
 </html>

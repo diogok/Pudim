@@ -23,7 +23,6 @@
         else return s ;
     }
 
-
     $.language     = defaultLanguage() ;
     $.translate    = translate ;
     $.languageData = strings ;
