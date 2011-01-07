@@ -2,7 +2,7 @@ $(function(){
   $("body *").each(function(i,el) {
           var tag = $(el);
           var tmp = tag.children().remove();
-          tag.html(lang(tag.text())).append(tmp);
+          tag.html($.translate(tag.text())).append(tmp);
       });
 
   // If come to add a bookmark
@@ -20,9 +20,9 @@ $(function(){
   // Generic bookmark list template
   var template  =  "<dl class='bookmarks'>{{#rows}}"
   template     += "<dt><a href='{{url}}' rel='nofollow' target='_blank'>{{title}}</a>";
-  template     += "<a href='#/add/id/{{id}}' class='editBt'>"+ lang("add/edit") +"</a></dt>";
+  template     += "<a href='#/add/id/{{id}}' class='editBt'>"+ $.translate("add/edit") +"</a></dt>";
   template     += "<dd><p>{{description}}</p>";
-  template     += "{{#user}}<p class='by'>"+ lang("by")+" <a href='#/user/{{user}}'>{{user}}</a></p>{{/user}}";
+  template     += "{{#user}}<p class='by'>"+ $.translate("by")+" <a href='#/user/{{user}}'>{{user}}</a></p>{{/user}}";
   template     += "<ul class='tags'>{{#tags}}";
   template     += "{{#user_filter}}<li><a href='#/user/{{user_filter}}/{{tag}}'>{{tag}}</a></li>{{/user_filter}}";
   template     += "{{#no_filter}}<li><a href='#/tag/{{tag}}'>{{tag}}</a></li>{{/no_filter}}";
@@ -41,7 +41,7 @@ $(function(){
       db.view("pudim/recent",{limit: 25, descending: true, success: 
           function(result) {
               if(result.rows.length < 1) {
-                  $('#recent div div').html(lang("No bookmarks for now."));
+                  $('#recent div div').html($.translate("No bookmarks for now."));
                   return; 
               }
               var docs = result.rows.map(function(row){return row.value;});
@@ -60,7 +60,7 @@ $(function(){
       db.list("pudim/top","top",{group: true, success: 
           function(docs) {
               if(docs.length < 1) {
-                  $('#top div div').html(lang( "No bookmarks for now.") );
+                  $('#top div div').html($.translate( "No bookmarks for now.") );
                   return; 
               }
               for(var i in docs) {
@@ -80,12 +80,12 @@ $(function(){
         $('div.tabs section').removeClass('current');
         $(this).closest('section').addClass('current');
         if(tag == "-") {
-            $('#tag div div').html(lang( "No bookmarks for now.") );
+            $('#tag div div').html($.translate( "No bookmarks for now.") );
         } else {
             $("#tag div div").html("Loading...");
             db.view("pudim/by_tags",{limit: 25, key: tag, success: 
               function(result) {
-                  if(result.rows.length < 1) $('#tag div div').html(lang( "No bookmarks for now." ));
+                  if(result.rows.length < 1) $('#tag div div').html($.translate( "No bookmarks for now." ));
                   var docs = result.rows.map(function(row){return row.value;});
                   for(var i in docs) {
                       docs[i].tags = docs[i].tags.map(function(tag){return {tag: tag};});
@@ -104,9 +104,9 @@ $(function(){
         $('div.tabs section').removeClass('current');
         $(this).closest('section').addClass('current');
         if(user == "-") {
-            $('#user div div').html(lang( "No bookmarks for now.") );
+            $('#user div div').html($.translate( "No bookmarks for now.") );
         } else {
-            $("#user div div").html(lang( "Loading...") );
+            $("#user div div").html($.translate( "Loading...") );
             var url ;
             var key ;
             if(params.tag) {
@@ -118,7 +118,7 @@ $(function(){
             }
             db.view(url,{limit: 25, key: key, success: 
               function(result) {
-                  if(result.rows.length < 1) $('#user div div').html(lang( "No bookmarks for now.") );
+                  if(result.rows.length < 1) $('#user div div').html($.translate( "No bookmarks for now.") );
                   var docs = result.rows.map(function(row){return row.value;});
                   for(var i in docs) {
                       docs[i].tags = docs[i].tags.map(function(tag){return {tag: tag};});
@@ -140,7 +140,7 @@ $(function(){
   $('div.tabs section#your').bind('your', function() {
         $('div.tabs section').removeClass('current');
         $(this).closest('section').addClass('current');
-        $('#your div div').html(lang( "Loading..." ));
+        $('#your div div').html($.translate( "Loading..." ));
         if(currentUser == null) {
             mask('#loginDialog');
             $('#logoutBt').hide();
@@ -148,7 +148,7 @@ $(function(){
             $('#logoutBt').show();
             db.view("pudim/by_user",{key: currentUser, descending: true, success: function(result) {
               if(result.rows.length < 1) {
-                  $('#your div div').html(lang( "No bookmarks for now." ));
+                  $('#your div div').html($.translate( "No bookmarks for now." ));
                   return; 
               }
               var docs = result.rows.map(function(row){return row.value;});
@@ -198,7 +198,7 @@ $(function(){
                       }
                   },error: function(a,b,c) {
                       unmask();
-                      alert(lang( "Unable to load bookmark: " )+ lang( c ));
+                      alert($.translate( "Unable to load bookmark: " )+ $.translate( c ));
                   } });
       } else if(params.url) {
           mask('#bookmarkDialog');
@@ -233,20 +233,20 @@ $(function(){
                       $.pathbinder.go("/your");
                   }, error: function(a,b,c) {
                       unmask();
-                      alert(lang( "Could not save bookmark: " )+ lang( c  ));
+                      alert($.translate( "Could not save bookmark: " )+ $.translate( c  ));
                       $.pathbinder.go("/your");
                   }});
       });
 
   $('#deleteBt').click(function() {
-          if(confirm(lang( "Are you sure you want to delete " )+ currentBookmark.url +"?")){
+          if(confirm($.translate( "Are you sure you want to delete " )+ currentBookmark.url +"?")){
           mask("#Loading");
           db.removeDoc(currentBookmark, {success: function() {
                       unmask();
                       $.pathbinder.go("/your");
                   }, error: function(a,b,c) {
                       unmask();
-                      alert(lang( "Could not delete bookmark: " )+ lang( c ));
+                      alert($.translate( "Could not delete bookmark: " )+ $.translate( c ));
                       $.pathbinder.go("/your");
                   }});
           }
@@ -267,7 +267,7 @@ $(function(){
                   error: function(a,b,c) {
                       unmask();
                       currentUser = null;
-                      alert(lang( "Failed signup: " )+ lang( c ));
+                      alert($.translate( "Failed signup: " )+ $.translate( c ));
                       $.pathbinder.go("/recent");
                   }});
       });
@@ -286,7 +286,7 @@ $(function(){
                   error: function(a,b,c) {
                       unmask();
                       currentUser = null;
-                      alert(lang( "Failed login: " )+ lang( c ));
+                      alert($.translate( "Failed login: " )+ $.translate( c ));
                       $.pathbinder.go("/recent");
                   }});
       });
