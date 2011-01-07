@@ -1,16 +1,14 @@
 $(function(){
-  
-  mask("#loadingDialog");
+  $("body *").each(function(i,el) {
+          var tag = $(el);
+          var tmp = tag.children().remove();
+          tag.html(lang(tag.text())).append(tmp);
+      });
 
+  // If come to add a bookmark
   var urlToAdd  = null;
   if(window.location.hash.substring(0,9) == "#/add/url") {
       urlToAdd = window.location.hash.substring(10);
-  }
-
-  var strings = strings || {};
-  function lang(s) {
-      if(strings && strings[s]) return strings[s];
-      else return s ;
   }
 
   // Load database
@@ -318,7 +316,6 @@ $(function(){
               $(this).hide();  
               $('.window').hide();  
           }); 
-          console.log(urlToAdd);
           if(urlToAdd == null) {
               $.pathbinder.go( window.location.hash.substring(1) || "/recent");
           } else {
