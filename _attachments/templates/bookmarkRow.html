@@ -5,12 +5,12 @@
     </dt>
     <dd>
         <p>{{description}}</p>
-        {{#user}}<p class='by'>by <a href='#/user/{{user}}'>{{user}}</a></p>{{/user}}
+        {{#user}}<p class='by'><span>by</span> <a href='#/user/{{user}}'>{{user}}</a></p>{{/user}}
+        <ul class='tags'>
         {{#tags}}
-            <ul class='tags'>
                 {{#user_filter}}<li><a href='#/user/{{user_filter}}/{{tag}}'>{{tag}}</a></li>{{/user_filter}}
                 {{#no_filter}}<li><a href='#/tag/{{tag}}'>{{tag}}</a></li>{{/no_filter}}
-            </ul>
         {{/tags}}
+        </ul>
     </dd>
 {{/rows}}</dl>
