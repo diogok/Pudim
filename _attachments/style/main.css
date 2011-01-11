@@ -1,11 +1,12 @@
 body {
   font:1em Helvetica, sans-serif;
   padding:4px;
+    color: #666;
 }
 
 a, a:link , a:active , a:visited {
     text-decoration: none;
-    color: #00B64F;
+    color: #666;
     padding: 0 0.5em 0  0.5em ;
 }
 
@@ -87,25 +88,24 @@ button {
 	z-index: 1;
 }
 .tabs section h3 {
-	margin: 1.5em 0.5em 0 0;
-	padding: 0.5em 2em 0.5em 1em;
-    width: 10em;
+	margin: 1.5em 0.5em 0 1em;
+	padding: 0.5em 2em 0.5em 0em;
 
 	cursor: pointer;
 
 	font: bold 0.8em Helvetica;
-    color: #fff;
-	background: #63ADD0;
-
-	border-radius: 15px 15px 0 0;
-	-moz-border-radius: 15px 15px 0 0;
-	-webkit-border-top-right-radius: 15px;
-	-webkit-border-top-left-radius: 15px;
+    color: #666;
+}
+.tabs section h3:hover {
+    text-decoration: underline;
 }
 
 .tabs section.current h3 { 
-    background: #034760; 
     cursor: default; 
+    text-decoration: underline;
+}
+.tabs section.current h3:hover { 
+    text-decoration: underline;
 }
 
 .tabs section>div {
@@ -114,52 +114,54 @@ button {
     position: absolute;
 	width: 60em;
 	display: none;
-	padding: 10px 10px 10px 10px;
-
-    border: 0.2em #034769 solid;
-	border-radius: 0 15px 15px 15px;
-	-moz-border-radius: 0 15px 15px 15px;
-	-webkit-border-top-right-radius: 15px;
-	-webkit-border-bottom-right-radius: 15px;
-	-webkit-border-bottom-left-radius: 15px;
+	padding: 0px 10px 10px 10px;
 }
 
 .tabs section.current>div {
     display: table;
-    color: #034769;
+    color: #666;
 }
 
+.tabs section>div h4 {
+    margin: 0.5em 0 0.35em 0 ;
+}
 
 dl.bookmarks {
+    margin: 0 0 0 0 ;
 }
 dl.bookmarks dt {
-    font-size: 1.5em ;
+    font-size: 1.25em ;
     margin: 0 0 0 0 ;
     padding: 0 0 0 0 ;
     display: block;
     clear: left;
+	color: #034769;
+}
+dl.bookmarks dt>a {
+	color: #034769;
 }
 dl.bookmarks dd {
     margin: -1em 0 1em 0 ;
     padding:  0.8em 0 0 0 ;
-    border-left: 0.5em #034769 solid;
     display: table;
+    border-left: 0.25em #CCC solid;
 }
 dl.bookmarks dd p {
     margin: 0.5em 0 0.5em 0.3em ;
     padding: 0 0 0 0 ;
-    color: #034769;
+    font-size: 0.8em;
 }
 dl.bookmarks dd p.by {
     margin: 0.5em 0 0.0em 0.5em ;
     padding: 0 0 0 0 ;
-    color: #034769;
     font-size: 0.8em;
 }
 dl.bookmarks dd ul {
     margin: 0 0 0 0.2em ;
     padding: 0 0 0 0 ;
     list-style: none;
+    width: 100%;
+    display: table;
 }
 dl.bookmarks dd ul li {
     margin: 0 0 0 0;
@@ -168,20 +170,6 @@ dl.bookmarks dd ul li {
     display: table;
     float: left;
     font-size: 0.8em;
-}
-dl.bookmarks dd ul li a {
-    color: #034769;
-    padding: 0 0.5em 0 0.2em ;
-}
-dl.bookmarks dd ul li a:hover {
-    color: #034679;
-	background-color: #63ADD0;
-    padding: 0 0.5em 0 0.2em ;
-
-	border-radius: 0 10px 0 10px;
-	-moz-border-radius: 0 10px 10px 0;
-	-webkit-border-top-right-radius: 10px;
-	-webkit-border-bottom-right-radius: 10px;
 }
 
 #loginDialog {  
